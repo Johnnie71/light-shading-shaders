@@ -3,22 +3,9 @@ varying vec3 vNormal;
 varying vec3 vPosition;
 
 #include ../includes/ambientLight.glsl;
+#include ../includes/directionalLight.glsl;
 
-vec3 directionalLight(vec3 lightColor, float lightIntensity, vec3 normal, vec3 lightPosition, vec3 viewDirection, float specularPower) {
-    vec3 lightDirection = normalize(lightPosition);
-    vec3 lightReflection = reflect(- lightDirection, normal);
-
-    // Shading
-    float shading = dot(normal, lightDirection);
-    shading = max(0.0, shading);
-
-    // Specular
-    float specular = - dot(lightReflection, viewDirection);
-    specular = max(0.0, specular);
-    specular = pow(specular, specularPower);
-
-    return lightColor * lightIntensity * (shading + specular);
-}
+#include ../includes/pointLight.glsl;
 
 void main()
 {
@@ -39,6 +26,26 @@ void main()
         vec3(0.0, 0.0, 3.0),
         viewDirection,
         20.0
+    );
+     light += pointLight(
+        vec3(1.0, 0.1, 0.1),
+        1.0,
+        normal,
+        vec3(0.0, 2.5, 0.0),
+        viewDirection,
+        20.0,
+        vPosition,
+        0.25
+    );
+    light += pointLight(
+        vec3(0.1, 1.0, 0.5),
+        1.0,
+        normal,
+        vec3(2.0, 2.0, 2.0),
+        viewDirection,
+        20.0,
+        vPosition,
+        0.2
     );
     color *= light;
  
