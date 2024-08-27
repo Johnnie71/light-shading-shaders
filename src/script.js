@@ -5,7 +5,7 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
 import shadingVertexShader from './shaders/shading/vertex.glsl'
 import shadingFragmentShader from './shaders/shading/fragment.glsl'
 
-/**
+/** 
  * Base
  */
 // Debug
@@ -127,6 +127,19 @@ gltfLoader.load(
         scene.add(suzanne)
     }
 )
+
+/**
+ * Light Helpers
+ */
+const directionalLightHelper = new THREE.Mesh(
+    new THREE.PlaneGeometry(),
+    new THREE.MeshBasicMaterial()
+)
+directionalLightHelper.material.color.setRGB(0.1, 0.1, 1)
+directionalLightHelper.material.side = THREE.DoubleSide
+directionalLightHelper.position.set(0, 0, 4)
+
+scene.add(directionalLightHelper)
 
 /**
  * Animate
